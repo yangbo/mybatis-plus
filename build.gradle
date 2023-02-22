@@ -6,6 +6,9 @@ allprojects {
 }
 
 ext {
+    // 是否发布到塔尔旺的私有 maven 仓库
+    publishToTelecwin = true
+
     configuration = [
         javaVersion = JavaVersion.VERSION_1_8
     ]
@@ -196,15 +199,36 @@ subprojects {
     publishing {
         repositories {
             maven {
-                def userName = System.getProperty("un")
-                def passWord = System.getProperty("ps")
-                def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
-                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-
-                credentials {
-                    username userName
-                    password passWord
+                if (publishToTelecwin) {
+                    allowInsecureProtocol(true)
+                    // 发布到塔尔旺私有 maven 仓库
+                    def releasesRepoUrl = "http://maven.telecwin.com/telecwin"
+                    def snapshotsRepoUrl = "http://maven.telecwin.com/snapshots"
+                    def token, userName
+                    if (version.endsWith('SNAPSHOT')) {
+                        url = snapshotsRepoUrl
+                        userName = System.getProperty('mvnTSUn')
+                        token = System.getProperty('mvnTSPs')
+                    } else {
+                        url = releasesRepoUrl
+                        userName = System.getProperty('mvnTRUn')
+                        token = System.getProperty('mvnTRPs')
+                    }
+                    credentials {
+                        username = userName
+                        password = token
+                    }
+                } else {
+                    def userName = System.getProperty("un")
+                    def passWord = System.getProperty("ps")
+                    // 发布到 开源 maven 仓库
+                    def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                    def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+                    url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                    credentials {
+                        username userName
+                        password passWord
+                    }
                 }
             }
         }
