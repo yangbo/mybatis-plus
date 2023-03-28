@@ -2,7 +2,7 @@ import java.time.LocalDateTime
 
 allprojects {
     group = 'com.baomidou'
-    version = "3.5.3.1-telecwin-SNAPSHOT"
+    version = "3.5.3.2-telecwin-SNAPSHOT"
 }
 
 ext {
@@ -207,12 +207,12 @@ subprojects {
                     def token, userName
                     if (version.endsWith('SNAPSHOT')) {
                         url = snapshotsRepoUrl
-                        userName = System.getProperty('mvnTSUn')
-                        token = System.getProperty('mvnTSPs')
+                        userName = System.getenv('mvnTSUn')
+                        token = System.getenv('mvnTSPs')
                     } else {
                         url = releasesRepoUrl
-                        userName = System.getProperty('mvnTRUn')
-                        token = System.getProperty('mvnTRPs')
+                        userName = System.getenv('mvnTRUn')
+                        token = System.getenv('mvnTRPs')
                     }
                     credentials {
                         username = userName

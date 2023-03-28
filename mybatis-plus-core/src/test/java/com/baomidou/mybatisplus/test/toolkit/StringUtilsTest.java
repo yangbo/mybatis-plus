@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -38,9 +39,9 @@ class StringUtilsTest {
 
     @Test
     void isCapitalModeTest() {
-        Assertions.assertFalse(StringUtils.isCapitalMode("test"));
-        Assertions.assertFalse(StringUtils.isCapitalMode("Test"));
-        Assertions.assertFalse(StringUtils.isCapitalMode("teSt"));
+        assertFalse(StringUtils.isCapitalMode("test"));
+        assertFalse(StringUtils.isCapitalMode("Test"));
+        assertFalse(StringUtils.isCapitalMode("teSt"));
         assertTrue(StringUtils.isCapitalMode("TEST"));
     }
 
@@ -49,7 +50,11 @@ class StringUtilsTest {
      */
     @Test
     void canBeAColumnName() {
-//        assertTrue(StringUtils.canBeColumnName("a$"));
+        assertFalse(StringUtils.isNotColumnName("a$"));
+        assertFalse(StringUtils.isNotColumnName("a_123"));
+        assertFalse(StringUtils.isNotColumnName("_123"));
+        assertTrue(StringUtils.isNotColumnName("._123"));
+        assertFalse(StringUtils.isNotColumnName("中文字段"));
     }
 
     /**
@@ -66,11 +71,11 @@ class StringUtilsTest {
      * 测试equals方法
      */
     @Test
-    void equal(){
+    void equal() {
         assertTrue(StringUtils.equals(null, null));
-        Assertions.assertFalse(StringUtils.equals(null, "abc"));
-        Assertions.assertFalse(StringUtils.equals("abc", null));
+        assertFalse(StringUtils.equals(null, "abc"));
+        assertFalse(StringUtils.equals("abc", null));
         assertTrue(StringUtils.equals("abc", "abc"));
-        Assertions.assertFalse(StringUtils.equals("abc", "ABC"));
+        assertFalse(StringUtils.equals("abc", "ABC"));
     }
 }
