@@ -49,7 +49,7 @@ public final class StringUtils {
     /**
      * 验证字符串是否是数据库字段
      */
-    private static final Pattern P_IS_COLUMN = Pattern.compile("^(\\w\\S*[\\w\\d]*|[\\u4e00-\\u9fa5]+)$");
+    private static final Pattern P_IS_COLUMN = Pattern.compile("^(\\w|[\\u4e00-\\u9fa5])\\S*[\\w\\d\\u4e00-\\u9fa5]*$");
 
     /**
      * 是否为大写命名

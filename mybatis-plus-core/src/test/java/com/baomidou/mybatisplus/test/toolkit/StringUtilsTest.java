@@ -55,6 +55,8 @@ class StringUtilsTest {
         assertFalse(StringUtils.isNotColumnName("_123"));
         assertTrue(StringUtils.isNotColumnName("._123"));
         assertFalse(StringUtils.isNotColumnName("中文字段"));
+        assertFalse(StringUtils.isNotColumnName("道岔区TQI"));
+        assertFalse(StringUtils.isNotColumnName("TQI道岔区"));
     }
 
     /**
